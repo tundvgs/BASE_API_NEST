@@ -43,4 +43,17 @@ export class BaseService {
       currentPage: pagination.page,
     };
   }
+
+  /**
+   *
+   * @param id
+   * @constructor
+   */
+  public async GetById(id: number) {
+    return await this.Model.findOne({
+      where: {
+        id: id,
+      },
+    });
+  }
 }

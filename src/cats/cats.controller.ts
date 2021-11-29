@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { CreateCatDto, ListAllEntities, UpdateCatDto } from './dto/index.dto';
 import { CatsService } from './cats.service';
+import { NotfoundException } from '../exception/notfound.exception';
 
 @Controller('cats')
 export class CatsController {
@@ -30,9 +31,17 @@ export class CatsController {
     });
   }
 
+  /**
+   *
+   * @param id
+   */
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return `This action returns a #${id} cat`;
+  async findOne(@Param('id') id: number) {
+    const data = await this.service.GetById(id);
+    if (data) {
+      return data;
+    }
+    throw new NotfoundException();
   }
 
   @Put(':id')
